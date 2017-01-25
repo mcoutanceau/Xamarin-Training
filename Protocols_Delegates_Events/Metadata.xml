@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SampleMetadata>
+	<ID>230c6a25-7d55-4257-ac7c-b8d5a802cc25</ID>
+	<IsFullApplication>false</IsFullApplication>
+	<Level>Intermediate</Level>
+	<Tags>User Interface, Data</Tags>
+	<Gallery>true</Gallery>
+	<Brief>This sample demonstrates how to interact with Objective-C protocols from C#.</Brief>
+</SampleMetadata>
