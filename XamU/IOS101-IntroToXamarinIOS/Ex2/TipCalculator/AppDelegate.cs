@@ -17,9 +17,11 @@ namespace TipCalculator
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			// Override point for customization after application launch.
-			// If not required for your application you can safely delete this method
-
+            // Override point for customization after application launch.
+            // If not required for your application you can safely delete this method
+            this.Window = new UIWindow(UIScreen.MainScreen.Bounds);
+            this.Window.RootViewController = new MyViewController();
+            this.Window.MakeKeyAndVisible();
 			return true;
 		}
 
