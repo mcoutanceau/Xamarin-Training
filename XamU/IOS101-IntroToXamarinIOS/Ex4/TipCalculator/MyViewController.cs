@@ -36,6 +36,14 @@ namespace TipCalculator
             };
 
             View.AddSubviews(totalAmount, calcButton, resultLabel);
+
+            calcButton.TouchUpInside += (sender, e) =>
+            {
+                resultLabel.ResignFirstResponder();
+                double totalAmountVal;
+                if (Double.TryParse(totalAmount.Text, out totalAmountVal))
+                    resultLabel.Text = String.Format("Tip is ${0}", totalAmountVal * 0.2);
+            };
         }
     }
 }
