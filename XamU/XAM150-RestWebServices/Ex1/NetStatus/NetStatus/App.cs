@@ -27,7 +27,7 @@ namespace NetStatus
                 }
             };
 
-            MainPage = new NavigationPage(content);
+            MainPage = new NoNetworkPage();// new NavigationPage(content);
         }
 
         protected override void OnStart()
