@@ -1,6 +1,8 @@
 ﻿using System;
-
+using Foundation;
 using UIKit;
+using Mailbox;
+using CoreGraphics;
 
 namespace MailBox
 {
@@ -31,5 +33,26 @@ namespace MailBox
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
+
+
+        #region Nested types
+
+        private class EmailTableViewSource : UITableViewSource
+        {
+            private readonly EmailServer _emailServer = new EmailServer(50);
+
+            public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+            {
+                var cell = new UITableViewCell(CGRect.Empty);
+                cell.TextLabel.Text = _emailServer.Email[indexPath.Row].Subject;
+                return cell;
+            }
+            public override nint RowsInSection(UITableView tableview, nint section)
+            {
+                return _emailServer.Email.Count;
+            }
+        }
+
+        #endregion Nested types
     }
 }
