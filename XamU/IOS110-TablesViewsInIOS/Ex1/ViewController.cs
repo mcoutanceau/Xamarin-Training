@@ -26,6 +26,8 @@ namespace MailBox
             this.View.AddConstraint(NSLayoutConstraint.Create(_uiTableView, NSLayoutAttribute.Left,   NSLayoutRelation.Equal, this.View, NSLayoutAttribute.Left     , 1, 0));
             this.View.AddConstraint(NSLayoutConstraint.Create(_uiTableView, NSLayoutAttribute.Width,  NSLayoutRelation.Equal, this.View, NSLayoutAttribute.Width    , 1, 0));
             this.View.AddConstraint(NSLayoutConstraint.Create(_uiTableView, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this.View, NSLayoutAttribute.Height   , 1, 0));
+
+            _uiTableView.Source = new EmailTableViewSource();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -33,7 +35,6 @@ namespace MailBox
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.
         }
-
 
         #region Nested types
 
