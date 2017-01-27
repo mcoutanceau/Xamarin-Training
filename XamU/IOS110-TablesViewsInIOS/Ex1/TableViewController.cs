@@ -6,6 +6,7 @@ using UIKit;
 
 namespace MailBox
 {
+    //Class created by the designer, then implemented manually.
     public partial class TableViewController : UITableViewController
     {
         private readonly EmailServer _emailServer = new EmailServer();
