@@ -12,7 +12,7 @@ namespace Mailbox
 {
     public sealed class EmailServer
     {
-        public IList<EmailItem> Email {get; private set;}
+        public IList<EmailItem> Emails {get; private set;}
         public static string UserName { get; set; }
 
         const string DefaultUserName = "Johnny Appleseed";
@@ -24,7 +24,7 @@ namespace Mailbox
 
         public EmailServer (int count = 10)
         {
-            Email = new List<EmailItem> ();
+            Emails = new List<EmailItem> ();
             Generate (count);
         }
 
@@ -39,7 +39,7 @@ namespace Mailbox
         void Generate (int count)
         {
             for (int index = 0; index < count; index++) {
-                Email.Insert (0, CreateOneEmail ());
+                Emails.Insert (0, CreateOneEmail ());
             }
         }
 

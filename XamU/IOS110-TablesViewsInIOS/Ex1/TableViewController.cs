@@ -18,13 +18,13 @@ namespace MailBox
 
         public override nint RowsInSection(UITableView tableView, nint section)
         {
-            return _emailServer.Email.Count;
+            return _emailServer.Emails.Count;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = new UITableViewCell(CGRect.Empty);
-            cell.TextLabel.Text = _emailServer.Email[indexPath.Row].Subject;
+            cell.TextLabel.Text = _emailServer.Emails[indexPath.Row].Subject;
             return cell;
         }
     }

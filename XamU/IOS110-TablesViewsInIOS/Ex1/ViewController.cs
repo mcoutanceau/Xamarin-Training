@@ -29,7 +29,7 @@ namespace MailBox
             this.View.AddConstraint(NSLayoutConstraint.Create(_uiTableView, NSLayoutAttribute.Width,  NSLayoutRelation.Equal, this.View, NSLayoutAttribute.Width    , 1, 0));
             this.View.AddConstraint(NSLayoutConstraint.Create(_uiTableView, NSLayoutAttribute.Height, NSLayoutRelation.Equal, this.View, NSLayoutAttribute.Height   , 1, 0));
 
-            _uiTableView.Source = new EmailTableViewSource();
+            _uiTableView.Source = new EmailTableViewSource(this);
         }
 
         public override void DidReceiveMemoryWarning()
@@ -43,6 +43,12 @@ namespace MailBox
         private class EmailTableViewSource : UITableViewSource
         {
             private readonly EmailServer _emailServer = new EmailServer(50);
+            private readonly ViewController _viewController;
+
+            public EmailTableViewSource(ViewController viewController)
+            {
+                this._viewController = viewController;
+            }
 
             public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
             {
@@ -52,14 +58,14 @@ namespace MailBox
                 //cell.ImageView.Image = _emailServer.Email[indexPath.Row].GetImage();
 
                 //Subtitle style:
-                var cell = new UITableViewCell(UITableViewCellStyle.Subtitle, null);
-                var email = _emailServer.Email[indexPath.Row];
-                cell.TextLabel.Text            = email.Subject;
-                cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
-                cell.ImageView.Image           = email.GetImage();
-                cell.DetailTextLabel.Text      = email.Body;
-                cell.DetailTextLabel.Font      = UIFont.FromName("Helvetica Light", 12);
-                cell.DetailTextLabel.TextColor = UIColor.LightGray;
+                //var cell = new UITableViewCell(UITableViewCellStyle.Subtitle, null);
+                //var email = _emailServer.Email[indexPath.Row];
+                //cell.TextLabel.Text            = email.Subject;
+                //cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
+                //cell.ImageView.Image           = email.GetImage();
+                //cell.DetailTextLabel.Text      = email.Body;
+                //cell.DetailTextLabel.Font      = UIFont.FromName("Helvetica Light", 12);
+                //cell.DetailTextLabel.TextColor = UIColor.LightGray;
 
                 //Value1 style
                 //var cell = new UITableViewCell(UITableViewCellStyle.Value1, null);
@@ -81,12 +87,39 @@ namespace MailBox
                 //cell.DetailTextLabel.Font      = UIFont.FromName("Helvetica Light", 12);
                 //cell.DetailTextLabel.TextColor = UIColor.LightGray;
 
+                //Exercice 4: DetailDisclosureButton
+                var cell = new UITableViewCell(UITableViewCellStyle.Subtitle, null);
+                var email = _emailServer.Emails[indexPath.Row];
+                cell.TextLabel.Text            = email.Subject;
+                cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
+                cell.ImageView.Image           = email.GetImage();
+                cell.DetailTextLabel.Text      = email.Body;
+                cell.DetailTextLabel.Font      = UIFont.FromName("Helvetica Light", 12);
+                cell.DetailTextLabel.TextColor = UIColor.LightGray;
+                cell.Accessory                 = UITableViewCellAccessory.DetailDisclosureButton;
+
                 return cell;
             }
 
             public override nint RowsInSection(UITableView tableview, nint section)
             {
-                return _emailServer.Email.Count;
+                return _emailServer.Emails.Count;
+            }
+
+            public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+            {
+                var detailViewController = (DetailsViewController)UIStoryboard.FromName("Main", null)
+                                                                              .InstantiateViewController("DetailsViewController");
+                detailViewController.Item = _emailServer.Emails[indexPath.Row];
+                _viewController.ShowDetailViewController(detailViewController, _viewController);
+            }
+
+            public override void AccessoryButtonTapped(UITableView tableView, NSIndexPath indexPath)
+            {
+                var email = _emailServer.Emails[indexPath.Row];
+                var alertCtrl = UIAlertController.Create("Email Details", email.ToString(), UIAlertControllerStyle.Alert);
+                alertCtrl.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+                _viewController.PresentViewController(alertCtrl, true, null);
             }
         }
 
