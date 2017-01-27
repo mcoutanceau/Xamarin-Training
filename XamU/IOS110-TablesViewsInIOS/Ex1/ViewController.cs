@@ -9,6 +9,8 @@ namespace MailBox
     //Manually coded class
     public partial class ViewController : UIViewController
     {
+
+        private const string _reuseIdentifier = "emailCell";
         private UITableView _uiTableView;
 
         public ViewController(IntPtr handle) : base(handle)
@@ -42,7 +44,7 @@ namespace MailBox
 
         private class EmailTableViewSource : UITableViewSource
         {
-            private readonly EmailServer _emailServer = new EmailServer(50);
+            private readonly EmailServer _emailServer = new EmailServer(1000);
             private readonly ViewController _viewController;
 
             public EmailTableViewSource(ViewController viewController)
@@ -52,14 +54,15 @@ namespace MailBox
 
             public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
             {
+                var email = _emailServer.Emails[indexPath.Row];
+
                 //Default style :
                 //var cell = new UITableViewCell(UITableViewCellStyle.Default, null);
-                //cell.TextLabel.Text  = _emailServer.Email[indexPath.Row].Subject;
-                //cell.ImageView.Image = _emailServer.Email[indexPath.Row].GetImage();
+                //cell.TextLabel.Text  = email.Subject;
+                //cell.ImageView.Image = email.GetImage();
 
                 //Subtitle style:
                 //var cell = new UITableViewCell(UITableViewCellStyle.Subtitle, null);
-                //var email = _emailServer.Email[indexPath.Row];
                 //cell.TextLabel.Text            = email.Subject;
                 //cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
                 //cell.ImageView.Image           = email.GetImage();
@@ -69,7 +72,6 @@ namespace MailBox
 
                 //Value1 style
                 //var cell = new UITableViewCell(UITableViewCellStyle.Value1, null);
-                //var email = _emailServer.Email[indexPath.Row];
                 //cell.TextLabel.Text            = email.Subject.Substring(0, 20) + "...";
                 //cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
                 //cell.ImageView.Image           = email.GetImage();
@@ -79,7 +81,6 @@ namespace MailBox
 
                 //Value2 style
                 //var cell = new UITableViewCell(UITableViewCellStyle.Value2, null);
-                //var email = _emailServer.Email[indexPath.Row];
                 //cell.TextLabel.Text            = email.Subject.Substring(0, 20) + "...";
                 //cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
                 ////No image assignement with Value2 Style
@@ -88,16 +89,26 @@ namespace MailBox
                 //cell.DetailTextLabel.TextColor = UIColor.LightGray;
 
                 //Exercice 4: DetailDisclosureButton
-                var cell = new UITableViewCell(UITableViewCellStyle.Subtitle, null);
-                var email = _emailServer.Emails[indexPath.Row];
-                cell.TextLabel.Text            = email.Subject;
+                UITableViewCell cell;
+
+                if ((cell = this._viewController._uiTableView.DequeueReusableCell(_reuseIdentifier)) == null)
+                    cell = GetEmailCell();
+                else
+                    cell.ImageView.Image?.Dispose();
+
+                cell.TextLabel.Text       = email.Subject;
+                cell.ImageView.Image      = email.GetImage();
+                cell.DetailTextLabel.Text = email.Body;
+                return cell;
+            }
+
+            private static UITableViewCell GetEmailCell()
+            {
+                var cell = new UITableViewCell(UITableViewCellStyle.Subtitle, _reuseIdentifier);
                 cell.TextLabel.Font            = UIFont.FromName("Helvetica Light", 14);
-                cell.ImageView.Image           = email.GetImage();
-                cell.DetailTextLabel.Text      = email.Body;
                 cell.DetailTextLabel.Font      = UIFont.FromName("Helvetica Light", 12);
                 cell.DetailTextLabel.TextColor = UIColor.LightGray;
                 cell.Accessory                 = UITableViewCellAccessory.DetailDisclosureButton;
-
                 return cell;
             }
 
