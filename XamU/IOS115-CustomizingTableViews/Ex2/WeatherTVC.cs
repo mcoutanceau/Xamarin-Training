@@ -14,7 +14,7 @@ namespace WeatherApp
 		public WeatherTVC (IntPtr handle) : base (handle)
 		{
 			_data = WeatherFactory.GetWeatherData ();
-            this.TableView.RegisterClassForCellReuse(typeof(WeatherCell), CELL_ID);
+           this.TableView.RegisterClassForCellReuse(typeof(WeatherCell), CELL_ID);
         }
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -25,8 +25,6 @@ namespace WeatherApp
         public WeatherCell GetWeatherCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (WeatherCell)tableView.DequeueReusableCell(CELL_ID);
-            if (cell == null)
-                cell = new WeatherCell(base.Handle);
             cell.UpdateData(_data[indexPath.Row]);
             return cell;
         }

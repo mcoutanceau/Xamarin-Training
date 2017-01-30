@@ -17,10 +17,6 @@ namespace WeatherApp
         {
             this.ContentView.AddSubviews(_lblCity, _imgWeather, _lblHigh, _lblLow);
         }
-        //public WeatherCell(IntPtr handle) : base(handle)
-        //{
-        //    this.ContentView.AddSubviews(_lblCity, _imgWeather, _lblHigh, _lblLow);
-        //}
 
         public override void LayoutSubviews()
         {
