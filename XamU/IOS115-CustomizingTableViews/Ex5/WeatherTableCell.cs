@@ -16,7 +16,8 @@ namespace WeatherApp
 			TextCity.Text = data.City;
 			TextTempHi.Text = data.High.ToString ();
 			TextTempLow.Text = data.Low.ToString ();
-			ImageWeather.Image = UIImage.FromBundle (data.CurrentConditions.ToString () + ".png");
+            ImageWeather.Image?.Dispose();
+			ImageWeather.Image = UIImage.FromBundle(data.CurrentConditions.ToString () + ".png");
 		}
 	}
 }
