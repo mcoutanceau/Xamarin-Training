@@ -8,7 +8,7 @@ using CoreGraphics;
 namespace MapsExercice
 {
     [Register("UniversalView")]
-    public class UniversalView : UIView
+    public class CustomMapView : UIView
     {
         internal MKMapView _mkMapView;
         internal UIToolbar _uiToolBar;
@@ -16,9 +16,9 @@ namespace MapsExercice
         internal UIBarButtonItem _barBtSatellite;
         internal UIBarButtonItem _barBtHybrid;
 
-        public UniversalView() { Initialize(); }
-        public UniversalView(RectangleF bounds) : base(bounds) { Initialize(); }
-        public UniversalView(CGRect bounds) : base(bounds) { Initialize(); }
+        public CustomMapView() { Initialize(); }
+        public CustomMapView(RectangleF bounds) : base(bounds) { Initialize(); }
+        public CustomMapView(CGRect bounds) : base(bounds) { Initialize(); }
 
         private void Initialize()
         {
@@ -81,8 +81,8 @@ namespace MapsExercice
         {
             base.ViewDidLoad();
 
-            UniversalView view;
-            this.View = view = new UniversalView(this.View.Frame);
+            CustomMapView view;
+            this.View = view = new CustomMapView(this.View.Frame);
             view._barBtStandard.Clicked  += _barBtStandard_Clicked;
             view._barBtSatellite.Clicked += _barBtSatellite_Clicked;
             view._barBtHybrid.Clicked    += _barBtHybrid_Clicked;
@@ -91,7 +91,7 @@ namespace MapsExercice
         public override void ViewWillUnload()
         {
             base.ViewWillUnload();
-            UniversalView view = (UniversalView)this.View;
+            CustomMapView view = (CustomMapView)this.View;
             view._barBtStandard.Clicked  -= _barBtStandard_Clicked;
             view._barBtSatellite.Clicked -= _barBtSatellite_Clicked;
             view._barBtHybrid.Clicked    -= _barBtHybrid_Clicked;
@@ -99,19 +99,19 @@ namespace MapsExercice
 
         private void _barBtHybrid_Clicked(object sender, EventArgs e)
         {
-            UniversalView view = (UniversalView)this.View;
+            CustomMapView view = (CustomMapView)this.View;
             view._mkMapView.MapType = MKMapType.Hybrid;
         }
 
         private void _barBtSatellite_Clicked(object sender, EventArgs e)
         {
-            UniversalView view = (UniversalView)this.View;
+            CustomMapView view = (CustomMapView)this.View;
             view._mkMapView.MapType = MKMapType.Satellite;
         }
 
         private void _barBtStandard_Clicked(object sender, EventArgs e)
         {
-            UniversalView view = (UniversalView)this.View;
+            CustomMapView view = (CustomMapView)this.View;
             view._mkMapView.MapType = MKMapType.Standard;
         }
     }
