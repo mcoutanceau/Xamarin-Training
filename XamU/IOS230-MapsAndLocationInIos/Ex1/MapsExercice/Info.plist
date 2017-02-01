@@ -41,5 +41,9 @@
 	</array>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
+	<key>CFBundleName</key>
+	<string>MapsExercice</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app uses your location to improve search results</string>
 </dict>
 </plist>

@@ -3,6 +3,7 @@ using MapKit;
 using System.Drawing;
 using UIKit;
 using CoreGraphics;
+using CoreLocation;
 
 namespace MapsExercice
 {
@@ -14,6 +15,7 @@ namespace MapsExercice
         internal UIBarButtonItem _barBtStandard;
         internal UIBarButtonItem _barBtSatellite;
         internal UIBarButtonItem _barBtHybrid;
+        internal CLLocationManager _locationMan;
 
         public CustomMapView() { Initialize(); }
         public CustomMapView(RectangleF bounds) : base(bounds) { Initialize(); }
@@ -28,6 +30,8 @@ namespace MapsExercice
             _mkMapView.ShowsBuildings        = true;
             _mkMapView.ShowsPointsOfInterest = true;
             _mkMapView.PitchEnabled          = true;
+            if (CLLocationManager.Status == CLAuthorizationStatus.AuthorizedWhenInUse)
+                _mkMapView.ShowsUserLocation = true;
 
             _uiToolBar = new UIToolbar();
             _uiToolBar.BackgroundColor = UIColor.LightGray;
@@ -41,7 +45,6 @@ namespace MapsExercice
             this.AddConstraint(NSLayoutConstraint.Create(_mkMapView, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, this, NSLayoutAttribute.Bottom, 1, 0));
 
             _uiToolBar.TranslatesAutoresizingMaskIntoConstraints = false;
-            
             this.AddConstraint(NSLayoutConstraint.Create(_uiToolBar, NSLayoutAttribute.Height, NSLayoutRelation.Equal, 0f, 50));
             this.AddConstraint(NSLayoutConstraint.Create(_uiToolBar, NSLayoutAttribute.Left,   NSLayoutRelation.Equal, this, NSLayoutAttribute.Left,   1, 0));
             this.AddConstraint(NSLayoutConstraint.Create(_uiToolBar, NSLayoutAttribute.Right,  NSLayoutRelation.Equal, this, NSLayoutAttribute.Right,  1, 0));
