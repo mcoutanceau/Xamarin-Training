@@ -20,7 +20,7 @@ namespace MapsExercice
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             this.Window = new UIWindow(UIScreen.MainScreen.Bounds);
-            this.Window.RootViewController = new MyViewController();
+            this.Window.RootViewController = new CustomMapViewController();
             this.Window.MakeKeyAndVisible();
             return true;
         }
