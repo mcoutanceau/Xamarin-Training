@@ -28,12 +28,16 @@ namespace BananaFinder
         private static MKAnnotationView GetViewForEx2(MKMapView mapView, IMKAnnotation pAnnotation)
         {
             const string reuseIdentifier = "pin";
-            return mapView.DequeueReusableAnnotation(reuseIdentifier)
-                ?? new MKAnnotationView(pAnnotation, reuseIdentifier)
+            var annotView = mapView.DequeueReusableAnnotation(reuseIdentifier);
+            if (annotView != null)
+                annotView.Annotation = pAnnotation;
+            else
+                annotView = new MKAnnotationView(pAnnotation, reuseIdentifier)
                 {
                     Image = UIImage.FromBundle("banana_pin.png"),
                     CenterOffset = new CoreGraphics.CGPoint(0, -20)
                 };
+            return annotView;
         }
     }
 }
