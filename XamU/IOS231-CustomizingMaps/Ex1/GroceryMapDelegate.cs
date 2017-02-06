@@ -1,4 +1,5 @@
 ﻿using MapKit;
+using System;
 using UIKit;
 
 namespace BananaFinder
@@ -35,9 +36,19 @@ namespace BananaFinder
                 annotView = new MKAnnotationView(pAnnotation, reuseIdentifier)
                 {
                     Image = UIImage.FromBundle("banana_pin.png"),
-                    CenterOffset = new CoreGraphics.CGPoint(0, -20)
+                    CenterOffset = new CoreGraphics.CGPoint(0, -20),
+                    CanShowCallout = true,
+                    RightCalloutAccessoryView = UIButton.FromType(UIButtonType.DetailDisclosure)
                 };
             return annotView;
+        }
+
+        public override void CalloutAccessoryControlTapped(MKMapView mapView, MKAnnotationView view, UIControl control)
+        {
+            StoreAnnotation annot =(StoreAnnotation)view.Annotation;
+            using (var alert = new UIAlertView(annot.Title
+                                             , String.Format("Hours\r\n {0} till {1}", annot.TimeOpen, annot.TimeClosed), null, "OK", null))
+                alert.Show();
         }
     }
 }
